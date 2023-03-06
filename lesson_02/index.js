@@ -1,3 +1,3 @@
-const surName = prompt("John");
+const userName = prompt("What is your name?");
 
-alert("Hello, John! How are you?");
+alert(`Hello ${userName}! How are you?`);
