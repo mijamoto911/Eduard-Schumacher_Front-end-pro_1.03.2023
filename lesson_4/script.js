@@ -6,6 +6,7 @@ for (; y < 20; y++) {
     x += y + ',';
 };
 console.log(x);
+console.log("______")
 
 //  NUMBER 1
 
@@ -16,6 +17,7 @@ for (; v < 20; v++) {
 
 }
 console.log(t)
+console.log("______")
 
 
 
@@ -32,6 +34,7 @@ for (; z <= 20; z++) {
 
 }
 console.log(str);
+console.log("______")
 
 
 //WHILE
@@ -43,6 +46,7 @@ while (q <= 20) {
     q++
 }
 console.log(string)
+console.log("______")
 
 
 
@@ -55,6 +59,7 @@ for (; a <= 35; a++) {
     b *= a;
 }
 console.log(b);
+console.log("______")
 
 
 // 4
@@ -67,6 +72,7 @@ for (; i <= n; i = i + 1) {
 }
 s = s / n;
 console.log(s);
+console.log("______")
 
 
 
@@ -78,9 +84,11 @@ for (; k <= 80; k++) {
 
     if (k % 2 === 0) {
         console.log(k);
+
     }
 
 }
+console.log("______")
 
 // 6
 
@@ -88,8 +96,10 @@ for (let r = 100; r <= 200; r++) {
 
     if (r % 3 === 0) {
         console.log(r);
+
     }
 }
+console.log("______")
 
 
 
@@ -105,7 +115,9 @@ next:
             if (h % d === 0) continue next;
         }
         console.log(h);
+
     }
+console.log("______")
 
 //  NUMBER 2
 
@@ -124,7 +136,9 @@ if (primeBool) {
     console.log(`${sampleInt} is a prime number`);
 } else {
     console.log(`${sampleInt} is a not prime number`);
+
 }
+console.log("______")
 
 
 //  NUMBER 3
