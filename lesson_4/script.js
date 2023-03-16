@@ -61,6 +61,19 @@ for (; a <= 35; a++) {
 console.log(b);
 console.log("______")
 
+//WHILE
+
+let f = 15;
+let w = 1;
+while (w <= 35) {
+    f *= w;
+    w++;
+}
+console.log(f);
+console.log("______")
+
+
+
 
 // 4
 
