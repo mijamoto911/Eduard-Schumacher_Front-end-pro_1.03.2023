@@ -1,8 +1,5 @@
-let num1 = +prompt('');
-let num2 = +prompt('');
-
-console.log(num1 || 0)
-console.log(num2 || 22)
+let num1 = +prompt('') || 0;
+let num2 = +prompt('') || 22;
 
 let num3 = num1 && num2 ? 80 : 40;
 
