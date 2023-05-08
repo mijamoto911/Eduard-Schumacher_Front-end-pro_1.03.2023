@@ -1,0 +1,17 @@
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+        
+        #myDiv {
+            padding-left: 10px;
+            font-style: italic;
+            font-size: larger;
+            color: blue;
+        }
+        
+        #myInput {
+            margin-top: 10px;
+            margin-left: 10px;
+            border-color: red;
+        }
