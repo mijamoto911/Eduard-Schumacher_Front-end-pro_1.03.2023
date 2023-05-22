@@ -1,0 +1,18 @@
+* {
+    box-sizing: border-box;
+}
+
+.categories {
+    float: left;
+    width: 20%;
+}
+
+.products {
+    float: left;
+    width: 40%;
+}
+
+.product-details {
+    float: left;
+    width: 40%;
+}
