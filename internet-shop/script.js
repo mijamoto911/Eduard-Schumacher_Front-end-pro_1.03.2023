@@ -1,131 +1,184 @@
+const categories = {
+    books: [{
+        name: 'Роман',
+        price: 10
+    }, {
+        name: 'Поезія',
+        price: 15
+
+    }],
+    electronics: [{
+        name: 'Смартфон',
+        price: 500
+    }, {
+        name: 'Ноутбук',
+        price: 1000
+
+    }],
+    clothing: [{
+        name: 'Футболка',
+        price: 20
+    }, {
+        name: 'Джинси',
+        price: 30
+
+    }]
+};
+
 const categoryList = document.getElementById('category-list');
 const productList = document.getElementById('product-list');
 const productDetails = document.getElementById('product-details');
 const orderForm = document.getElementById('order-form');
+const orderFormElement = document.getElementById('order-form-element');
 const orderDetails = document.getElementById('order-details');
+const myOrdersButton = document.getElementById('my-orders-button');
 
-const data = {
-    electronics: [
-        { id: 1, name: 'Smartphone', price: 1000 },
-        { id: 2, name: 'Laptop', price: 1500 },
-    ],
-    clothing: [
-        { id: 3, name: 'T-shirt', price: 20 },
-        { id: 4, name: 'Jeans', price: 50 },
-    ],
-    books: [
-        { id: 5, name: 'Novel', price: 10 },
-        { id: 6, name: 'Poetry', price: 15 },
-    ],
-};
+let currentCategory = '';
 
 
 function showProducts(category) {
-    productList.innerHTML = '';
-    const products = data[category];
+    currentCategory = category;
+    const products = categories[category];
 
-    products.forEach(product => {
+    productList.innerHTML = '';
+    productDetails.innerHTML = '';
+
+    for (const product of products) {
         const li = document.createElement('li');
-        li.textContent = product.name;
-        li.addEventListener('click', () => showProductDetails(product));
+        li.innerText = `${product.name} - ${product.price} $`;
+        li.addEventListener('click', () => {
+            showProductDetails(product);
+        });
         productList.appendChild(li);
-    });
+    }
 }
+
 
 function showProductDetails(product) {
-    productDetails.innerHTML = '';
+    productDetails.innerHTML = `
+<h2>${product.name}</h2>
+<p>Price: ${product.price} грн</p>
+<button id="buy-button">Buy</button>
+`;
 
-    const name = document.createElement('h3');
-    name.textContent = product.name;
-
-    const price = document.createElement('p');
-    price.textContent = `Price: $${product.price}`;
-
-    const buyButton = document.createElement('button');
-    buyButton.textContent = 'Buy';
-    buyButton.addEventListener('click', () => showOrderForm(product));
-
-
-    productDetails.appendChild(name);
-    productDetails.appendChild(price);
-    productDetails.appendChild(buyButton);
-}
-
-function showOrderForm(product) {
-    orderForm.reset();
-    document.getElementById('quantity').value = 1;
-
-    productDetails.innerHTML = '';
-    orderForm.style.display = 'block';
-    orderForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        submitOrder(product);
+    const buyButton = document.getElementById('buy-button');
+    buyButton.addEventListener('click', () => {
+        showOrderForm(product);
     });
 }
 
-function submitOrder(product) {
+
+function showOrderForm(product) {
+    productDetails.innerHTML = '';
+    orderForm.style.display = 'block';
+
+    orderFormElement.addEventListener('submit', (event) => {
+        event.preventDefault();
+        submitOrderForm(product);
+    });
+}
+
+
+function submitOrderForm(product) {
     const name = document.getElementById('name').value;
     const city = document.getElementById('city').value;
-    const delivery = document.getElementById('delivery').value;
+    const postOffice = document.getElementById('post-office').value;
     const payment = document.getElementById('payment').value;
     const quantity = document.getElementById('quantity').value;
     const comment = document.getElementById('comment').value;
 
-    if (name && city && delivery && payment && quantity) {
+    if (name && city && postOffice && payment && quantity) {
         const order = {
-            product: product,
             name: name,
             city: city,
-            delivery: delivery,
+            postOffice: postOffice,
             payment: payment,
             quantity: quantity,
-            comment: comment,
+            comment: comment
         };
 
-        orderForm.reset();
-        orderForm.style.display = 'none';
+        const orders = getOrdersFromLocalStorage();
+        orders.push(order);
+        saveOrdersToLocalStorage(orders);
 
         showOrderDetails(order);
     } else {
-        console.log('Please fill in all mandatory fields of the form!');
+        alert('Please fill in all required fields');
     }
 }
 
+
 function showOrderDetails(order) {
-    orderDetails.innerHTML = '';
+    orderForm.style.display = 'none';
 
-    const productName = document.createElement('h3');
-    productName.textContent = `Product name: ${order.product.name}`;
+    orderDetails.innerHTML = `
+<h2>Order registration form</h2>
+<p>Name of the buyer: ${order.name}</p>
+<p>City: ${order.city}</p>
+<p>Composition of New Mail to be sent: ${order.postOffice}</p>
+<p>Payment method: ${order.payment}</p>
+<p>Quantity: ${order.quantity}</p>
+<p>Comment: ${order.comment}</p>
+<button id="delete-order-button">Delete order</button>
+`;
 
-    const customerName = document.createElement('p');
-    customerName.textContent = `Name of the buyer: ${order.name}`;
-
-    const city = document.createElement('p');
-    city.textContent = `City: ${order.city}`;
-
-    const delivery = document.createElement('p');
-    delivery.textContent = `New post warehouse: ${order.delivery}`;
-
-    const payment = document.createElement('p');
-    payment.textContent = `Payment method: ${order.payment}`;
-
-    const quantity = document.createElement('p');
-    quantity.textContent = `Quantity: ${order.quantity}`;
-
-    const comment = document.createElement('p');
-    comment.textContent = `Comment: ${order.comment}`;
-
-    orderDetails.appendChild(productName);
-    orderDetails.appendChild(customerName);
-    orderDetails.appendChild(city);
-    orderDetails.appendChild(delivery);
-    orderDetails.appendChild(payment);
-    orderDetails.appendChild(quantity);
-    orderDetails.appendChild(comment);
+    const deleteButton = document.getElementById('delete-order-button');
+    deleteButton.addEventListener('click', () => {
+        deleteOrder(order);
+    });
 }
 
+
+function deleteOrder(order) {
+    const orders = getOrdersFromLocalStorage();
+    const index = orders.findIndex(o => o.name === order.name && o.city === order.city && o.postOffice === order.postOffice && o.payment === order.payment && o.quantity === order.quantity && o.comment === order.comment);
+
+    if (index !== -1) {
+        orders.splice(index, 1);
+        saveOrdersToLocalStorage(orders);
+        showMyOrders();
+    }
+}
+
+
+function getOrdersFromLocalStorage() {
+    const ordersString = localStorage.getItem('orders');
+    return ordersString ? JSON.parse(ordersString) : [];
+}
+
+
+function saveOrdersToLocalStorage(orders) {
+    localStorage.setItem('orders', JSON.stringify(orders));
+}
+
+
+function showMyOrders() {
+    const orders = getOrdersFromLocalStorage();
+
+    productList.innerHTML = '';
+    productDetails.innerHTML = '';
+    orderForm.style.display = 'none';
+    orderDetails.innerHTML = '';
+
+    for (const order of orders) {
+        const orderItem = document.createElement('li');
+        orderItem.innerHTML = `
+    <p>Date: ${new Date().toLocaleString()}</p>
+    <p>Price: ${order.quantity * categories[currentCategory][0].price} $</p>
+    `;
+        orderItem.addEventListener('click', () => {
+            showOrderDetails(order);
+        });
+        productList.appendChild(orderItem);
+    }
+}
+
+
+myOrdersButton.addEventListener('click', showMyOrders);
+
+
 categoryList.addEventListener('click', (event) => {
-    const category = event.target.getAttribute('data-category');
+    const category = event.target.dataset.category;
     if (category) {
         showProducts(category);
     }

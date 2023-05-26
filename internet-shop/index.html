@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Internet-Shop-Modifier</title>
+    <title>Internet-Shop-LocalStorage</title>
     <link rel="stylesheet" href="./style.css">
 </head>
 
@@ -19,6 +19,7 @@
         </ul>
     </div>
 
+
     <div class="products">
         <h2>Goods</h2>
         <ul id="product-list"></ul>
@@ -29,10 +30,9 @@
         <div id="product-details"></div>
         <div class="order-form" id="order-form">
             <h2>Order registration form</h2>
-            <form>
+            <form id="order-form-element">
                 <label for="name">Name of the buyer:</label>
                 <input type="text" id="name" required><br>
-
                 <label for="city">City:</label>
                 <select id="city" required>
                 <option value="">Choose a city</option>
@@ -40,24 +40,20 @@
                 <option value="Lemberg">Lemberg</option>
                 <option value="Odessa">Odessa</option>
                 </select><br>
-
-                <label for="delivery">New post warehouse:</label>
-                <input type="text" id="delivery" required><br>
-
+                <label for="delivery">Delivery</label>
+                <input type="text" id="post-office" required><br>
                 <label for="payment">Payment method:</label>
                 <select id="payment" required>
                     <option value="">Choose a payment method</option>
                     <option value="Postpaid">Postpaid</option>
                     <option value="Bank card">Bank card</option>
                 </select><br>
-
                 <label for="quantity">The number of products:</label>
                 <input type="number" id="quantity" min="1" required><br>
-
                 <label for="comment">Comment on the order:</label>
                 <textarea id="comment"></textarea><br>
-
-                <button type="submit" id="submit-btn">Confirm the order</button>
+                <button type="submit">Confirm the order</button>
+                <button id="my-orders-button">My orders</button>
             </form>
         </div>
         <div id="order-details"></div>
